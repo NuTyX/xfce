@@ -1,0 +1,32 @@
+description="Modern, fast and easy-to-use file manager for Xfce"
+url="https://docs.xfce.org/xfce/thunar/start"
+
+license="LGPL2 GPL2"
+
+packager="spiky <spiky@nutyx.org>"
+contributors="Tyrry,Greg,Rems,Fabienwang,Tnut"
+
+makedepends=(libnotify libexif exo libxfce4ui xfce4-panel
+             gvfs libpng libgudev libxfce4util)
+run=(desktop-file-utils gtk-update-icon-cache)
+set=(xfce4)
+
+name=thunar
+version=4.20.9
+
+source=(https://archive.xfce.org/src/xfce/thunar/${version%.*}/$name-$version.tar.bz2)
+PKGMK_GROUPS=(devel doc man)
+
+build() {
+
+cd $name-$version
+
+./configure --prefix=/usr \
+--sysconfdir=/etc \
+--docdir=/usr/share/doc/$name-$version
+make
+make DESTDIR=$PKG install
+
+install -Dm644 COPYING $PKG/usr/share/licenses/$name/COPYING
+install -Dm644 COPYING.LIB $PKG/usr/share/licenses/$name/COPYING.LIB
+}
