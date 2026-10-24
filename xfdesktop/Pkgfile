@@ -1,0 +1,28 @@
+description="A desktop manager for Xfce"
+url="http://www.xfce.org"
+
+packager="tnut <tnut@nutyx.org>"
+contributors="Tyrry,Greg,Spiky"
+
+makedepends=(exo libwnck libxfce4ui thunar garcon
+            startup-notification libnotify)
+run=(gtk-update-icon-cache)
+
+set=(xfce4)
+
+name=xfdesktop
+version=4.20.2
+release=2
+
+source=(https://archive.xfce.org/src/xfce/${name}/${version:0:4}/${name}-$version.tar.bz2)
+
+build() {
+
+cd ${name}-$version
+
+./configure --prefix=/usr \
+--with-default-backdrop-filename=/usr/share/backgrounds/nutyx/NuTyX-XFCE4-26.06.1.png
+
+make
+make DESTDIR=$PKG install
+}
