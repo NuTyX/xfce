@@ -1,0 +1,31 @@
+description="Extensions to Xfce by os-cillation"
+url="http://www.xfce.org/"
+
+license="GPL-2.0-or-later AND LGPL-2.1-or-later"
+
+packager="tnut <tnut@nutyx.org>"
+contributors="Tyrry,Greg,Spiky"
+
+makedepends=(gtk3 perl-uri libxfce4ui libxfce4util gtk-doc)
+
+name=exo
+version=4.20.0
+
+source=(http://archive.xfce.org/src/xfce/$name/${version%.*}/$name-$version.tar.bz2)
+
+build() {
+
+cd $name-$version
+
+./configure --prefix=/usr \
+--sysconfdir=/etc \
+--enable-gtk-doc \
+--disable-debug
+
+make
+make DESTDIR=$PKG install
+	
+# Obsolets libs
+rm $PKG/usr/lib/libexo-2.la
+
+}
