@@ -1,0 +1,36 @@
+description="plugin that monitors customizable programs stdout for the Xfce4 panel"
+url="https://docs.xfce.org/panel-plugins/xfce4-genmon-plugin"
+
+license="LGPL2.1"
+
+packager="spiky <spiky@nutyx.org>"
+contributors="Tnut"
+
+makedepends=(autoconf intltool libtool xfce4-panel hicolor-icon-theme)
+run=()
+set=(xfce4-extra)
+
+name=xfce4-genmon-plugin
+version=4.3.0
+
+source=(https://archive.xfce.org/src/panel-plugins/$name/4.3/$name-$version.tar.xz)
+
+build() {
+cd $name-$version
+
+mkdir build
+cd    build
+
+meson setup .. \
+     --prefix=/usr          \
+     --buildtype=release
+
+ninja
+
+DESTDIR=$PKG ninja install
+
+install -Dm644 ../COPYING $PKG/usr/share/licenses/$name/COPYING
+
+find $PKG/usr/share/xfce4/panel/plugins -type f -name '*.desktop' \
+       -exec sed -r '/\[.+\]=/d' -i {} \;
+}
