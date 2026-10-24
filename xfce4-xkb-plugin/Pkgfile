@@ -1,0 +1,34 @@
+description="Plugin to switch keyboard layouts for the Xfce4 panel"
+url="http://goodies.xfce.org/projects/panel-plugins/xfce4-xkb-plugin"
+
+license="GPL2"
+
+packager="spiky <spiky@nutyx.org>"
+contributors="Pierre.,Greg,Fabienwang,Tnut"
+
+makedepends=(librsvg xorg-libxklavier xfce4-panel libwnck garcon)
+set=(xfce4-extra)
+
+name=xfce4-xkb-plugin
+version=0.9.0
+
+source=(http://archive.xfce.org/src/panel-plugins/$name/${version%.*}/$name-$version.tar.xz)
+
+build() {
+
+cd $name-$version
+
+mkdir build
+cd    build
+
+meson setup .. \
+     --prefix=/usr          \
+     --buildtype=release
+
+ninja
+
+DESTDIR=$PKG ninja install
+
+install -Dm644 ../COPYING $PKG/usr/share/licenses/$name/COPYING
+
+}
