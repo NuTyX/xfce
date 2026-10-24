@@ -1,0 +1,34 @@
+description="Multi-protocol, multi-mailbox mail watcher for the Xfce4 panel"
+url="http://goodies.xfce.org/projects/panel-plugins/xfce4-mailwatch-plugin"
+
+license="GPL2"
+
+packager="spiky <spiky@nutyx.org>"
+contributors="Timcowchip,Greg,Tnut"
+
+makedepends=(xfce4-panel gnutls libgcrypt intltool perl-xml-parser libxfce4ui)
+
+set=(xfce4-extra)
+
+name=xfce4-mailwatch-plugin
+version=1.4.0
+
+source=(http://archive.xfce.org/src/panel-plugins/$name/${version%.*}/$name-$version.tar.xz)
+
+build() {
+
+cd $name-$version
+
+mkdir build
+cd    build
+
+meson setup .. \
+     --prefix=/usr          \
+     --buildtype=release
+
+ninja
+
+DESTDIR=$PKG ninja install
+
+install -Dm644 ../COPYING $PKG/usr/share/licenses/$name/COPYING
+}
