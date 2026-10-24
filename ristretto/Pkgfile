@@ -1,0 +1,26 @@
+description="Ristretto is a fast and lightweight picture-viewer for the Xfce desktop environment."
+url="https://goodies.xfce.org/projects/applications/ristretto"
+
+license="GPL-2.0"
+
+packager="tnut <tnut@nutyx.org>"
+contributors="Tyrry,Greg,Fabienwang,Spiky"
+
+makedepends=(libxfce4util libxfce4ui xorg-libxinerama xorg-libxrandr
+             xorg-libsm thunar libexif)
+run=(tumbler)
+
+set=(xfce4)
+
+name=ristretto
+version=0.14.0
+release=2
+
+source=(https://archive.xfce.org/src/apps/$name/${version:0:4}/$name-$version.tar.xz)
+
+build=meson
+
+package() {
+  install -Dm644 $name-$version/COPYING \
+  $PKG/usr/share/licenses/$name/COPYING
+}
